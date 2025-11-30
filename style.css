@@ -9,7 +9,7 @@ body {
   margin: 0;
   font-family: 'Kanit', sans-serif;
   color: var(--text-color);
-  background: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg') no-repeat center center fixed;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Ayutthaya_3_pagodas.jpg') no-repeat center center fixed;
   background-size: cover;
   transition: background 0.5s, color 0.5s;
 }
