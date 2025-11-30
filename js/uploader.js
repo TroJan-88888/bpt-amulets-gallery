@@ -1,92 +1,59 @@
-function validateImage(file){
-  if(!file) return 'no_file';
-  if(!file.type.startsWith('image/')) return 'not_image';
-  if(file.size>5*1024*1024) return 'too_large';
-  return null;
-}
-
-async function readFile(file){
-  return await new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=>resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+function readFileAsDataURL(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=rej;
+    r.readAsDataURL(file);
   });
 }
 
-async function loadAdminList(){
-  const token = sessionStorage.getItem('amulets_jwt');
-  if(!token) return;
-  const listEl = document.getElementById('admin-list');
-  listEl.innerHTML = '';
-  try{
-    const res = await fetch('/backend/Code.gs?action=amulets',{
-      headers:{Authorization:'Bearer '+token}
-    });
-    const items = await res.json();
-    items.forEach(it=>{
-      const div = document.createElement('div');
-      div.className='card';
-      div.innerHTML=`
-        <img src="${it.image}" alt="${it.title}">
-        <h3>${it.title}</h3>
-        <p>${it.description||''}</p>
-        <button data-id="${it.id}" class="del-btn">ลบ</button>
-      `;
-      listEl.appendChild(div);
-    });
-    document.querySelectorAll('.del-btn').forEach(btn=>{
-      btn.addEventListener('click', async (e)=>{
-        if(!confirm('ลบรูปนี้จริงหรือ?')) return;
-        const id = e.target.dataset.id;
-        try{
-          await fetch('/backend/Code.gs?action=delete',{
-            method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-            body: JSON.stringify({action:'delete', id})
-          });
-          loadAdminList();
-        }catch(err){ console.error(err); alert('ลบไม่สำเร็จ'); }
-      });
-    });
-  }catch(err){ console.error(err); }
-}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  const uploadForm = document.getElementById('upload-form');
-  if(!uploadForm) return;
-  uploadForm.addEventListener('submit', async (e)=>{
+document.addEventListener('DOMContentLoaded',()=>{
+  const form = document.getElementById('upload-form');
+  if(!form) return;
+  form.addEventListener('submit', async e=>{
     e.preventDefault();
-    const token = sessionStorage.getItem('amulets_jwt');
-    const file = document.getElementById('file-input').files[0];
-    const title = document.getElementById('img-title').value.trim();
-    const category = document.getElementById('img-category').value;
-    const material = document.getElementById('img-material').value;
-    const desc = document.getElementById('img-desc').value.trim();
+    const file=document.getElementById('file-input').files[0];
+    const title=document.getElementById('img-title').value;
+    const type=document.getElementById('img-type').value;
+    const material=document.getElementById('img-material').value;
+    const desc=document.getElementById('img-desc').value;
+    if(!file){ alert('กรุณาเลือกไฟล์'); return; }
+    const dataUrl = await readFileAsDataURL(file);
 
-    const v = validateImage(file);
-    if(v){
-      alert({no_file:'กรุณาเลือกไฟล์',not_image:'ไฟล์ต้องเป็นรูปภาพ',too_large:'ไฟล์เกิน 5MB'}[v]);
-      return;
-    }
-
-    const dataUrl = await readFile(file);
-
-    try{
-      const res = await fetch('/backend/Code.gs?action=upload',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-        body: JSON.stringify({action:'upload', title, category, material, desc, dataUrl})
-      });
-      const data = await res.json();
-      if(data.ok){
-        alert('อัปโหลดสำเร็จ');
-        uploadForm.reset();
-        loadAdminList();
-      }else alert('อัปโหลดไม่สำเร็จ');
-    }catch(err){ console.error(err); alert('เกิดข้อผิดพลาด'); }
+    const token=sessionStorage.getItem('amulets_jwt');
+    const res = await fetch('<GAS_WEBAPP_URL>',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({action:'upload',title,type,material,desc,dataUrl,token})
+    });
+    const data = await res.json();
+    if(data.ok){ alert('อัปโหลดสำเร็จ'); loadAdminList(); } 
+    else alert('ล้มเหลว');
   });
-
-  const refreshBtn = document.getElementById('refresh-list');
-  if(refreshBtn) refreshBtn.addEventListener('click', loadAdminList);
 });
+
+// Load Admin list
+async function loadAdminList(){
+  const gallery = document.getElementById('admin-list');
+  gallery.innerHTML='';
+  const items = await fetch('<GAS_WEBAPP_URL>?action=amulets').then(r=>r.json());
+  items.forEach(i=>{
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`<img src="${i.image}" alt="${i.title}"><h3>${i.title}</h3>
+    <p>${i.description}</p>
+    <button onclick="deleteItem(${i.id})">ลบ</button>`;
+    gallery.appendChild(card);
+  });
+}
+
+async function deleteItem(id){
+  if(!confirm('ลบรายการนี้?')) return;
+  const token=sessionStorage.getItem('amulets_jwt');
+  const res = await fetch('<GAS_WEBAPP_URL>',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({action:'delete',id,token})
+  });
+  const data = await res.json();
+  if(data.ok){ loadAdminList(); } else { alert('ล้มเหลว'); }
+}
