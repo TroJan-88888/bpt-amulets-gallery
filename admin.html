@@ -2,29 +2,33 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - พระเครื่องลึกลับแดนสยาม</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin - พระเครื่องแดนสยาม</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <header class="site-header">
-  <h1>แผงผู้ดูแล</h1>
-  <nav><a href="/">กลับหน้าแรก</a></nav>
+  <div class="container">
+    <h1>แผงผู้ดูแล</h1>
+    <nav><a href="/">กลับหน้าแรก</a></nav>
+  </div>
 </header>
 
 <main class="container admin-container">
-  <section id="login-box">
-    <h2>เข้าสู่ระบบ Admin</h2>
+  <section class="auth-box" id="login-box">
+    <h2>เข้าสู่ระบบ</h2>
     <form id="login-form">
       <input id="login-user" placeholder="ชื่อผู้ใช้" required>
       <input id="login-pass" type="password" placeholder="รหัสผ่าน" required>
       <button type="submit">ล็อกอิน</button>
     </form>
+    <div id="login-msg"></div>
   </section>
 
   <section id="admin-panel" style="display:none;">
-    <h2>จัดการรูปภาพ</h2>
+    <h2>จัดการรูปพระเครื่อง</h2>
     <form id="upload-form">
+      <label>ไฟล์รูป (jpg/png, ≤5MB)</label>
       <input id="file-input" type="file" accept="image/*">
       <input id="img-title" placeholder="ชื่อพระ" required>
       <select id="img-category">
@@ -42,12 +46,19 @@
       <button type="submit">อัปโหลด</button>
     </form>
 
-    <button id="refresh-list">รีเฟรชรายการ</button>
-    <button id="logout-btn">ออกจากระบบ</button>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <button id="refresh-list">รีเฟรชรายการ</button>
+      <button id="logout-btn">ออกจากระบบ</button>
+    </div>
+
+    <h3 style="margin-top:20px;">รายการล่าสุด</h3>
     <div id="admin-list"></div>
   </section>
 </main>
 
+<script src="/js/api.js"></script>
 <script src="/js/auth.js"></script>
 <script src="/js/uploader.js"></script>
 <script src="/js/album-gallery.js"></script>
+</body>
+</html>
