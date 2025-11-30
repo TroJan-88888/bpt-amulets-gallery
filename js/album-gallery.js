@@ -1,15 +1,28 @@
-// album-gallery.js
-async function renderGallery(){
+document.addEventListener('DOMContentLoaded', ()=>{
   const gallery = document.getElementById('gallery');
-  const albums = await window.albumsData;
-  gallery.innerHTML = '';
-  albums.forEach(album=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    const imgsHtml = album.thumbnails.map(src=>`<img src="${src}" alt="${album.name}">`).join('');
-    card.innerHTML = imgsHtml + `<h3>${album.name}</h3><p><a href="${album.url}" target="_blank" style="color:gold;text-decoration:none;">เข้าชมอัลบั้ม</a></p>`;
-    gallery.appendChild(card);
-  });
-}
+  const searchInput = document.getElementById('search-input');
 
-window.addEventListener('DOMContentLoaded', renderGallery);
+  let albums = fetchAlbumThumbnails();
+
+  function render(items){
+    gallery.innerHTML='';
+    items.forEach(a=>{
+      const div = document.createElement('div');
+      div.className='card';
+      div.innerHTML=`
+        <a href="${a.link}" target="_blank">
+          <img src="${a.thumbnail}" alt="${a.name}">
+          <h3>${a.name}</h3>
+        </a>
+      `;
+      gallery.appendChild(div);
+    });
+  }
+
+  render(albums);
+
+  searchInput.addEventListener('input', ()=>{
+    const val = searchInput.value.toLowerCase();
+    render(albums.filter(a=>a.name.toLowerCase().includes(val)));
+  });
+});
