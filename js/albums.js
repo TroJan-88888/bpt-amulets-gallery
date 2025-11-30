@@ -1,20 +1,10 @@
+// albums.js
 const ALBUMS = [
-  {"name": "เชียงใหม่", "url": "https://photos.google.com/album/AF1QipNikZnyPDpsuIh56ncLi4B72AQA1nQIQd_644MW"},
-  {"name": "หลวงปู่ทวดวัดช้างให้", "url": "https://photos.google.com/album/AF1QipOILbe6R2qZrL020jEJtaCEcAQZeb9VQLIXEK5j"},
-  {"name": "พระปรุหนังหลวงพ่อเนียม", "url": "https://mega.nz/folder/bK4yjIaA#iLp1GuhiwRVVpPshQ1YpXQ"},
-  {"name": "พระปิดตาหลวงพ่อเนียม", "url": "https://mega.nz/folder/aTp1VYZC#N3tGa1QYQO7YDpLXTtGnAQ"}
+  {"name":"เชียงใหม่","url":"https://photos.google.com/album/AF1QipNikZnyPDpsuIh56ncLi4B72AQA1nQIQd_644MW"},
+  {"name":"หลวงปู่ทวดวัดช้างให้","url":"https://photos.google.com/album/AF1QipOILbe6R2qZrL020jEJtaCEcAQZeb9VQLIXEK5j"},
+  {"name":"พิจิตร","url":"https://photos.google.com/album/AF1QipNH3Vrx0EA1Ocl5Ei_KkDvTd6QyIgFferd1KFhN"},
+  {"name":"วัดปากน้ำ","url":"https://photos.google.com/album/AF1QipO51mqsIk-prnPjhlLa4W2ssbJ-qQ0cbI8A26zq"}
+  // เพิ่ม album อื่นๆ
 ];
 
-function fetchAlbumThumbnails(){
-  return ALBUMS.map(a=>({
-    name: a.name,
-    thumbnail: getThumbnailUrl(a.url),
-    link: a.url
-  }));
-}
-
-function getThumbnailUrl(url){
-  if(url.includes('photos.google.com')) return 'https://via.placeholder.com/300x200?text=Photo';
-  if(url.includes('mega.nz')) return 'https://via.placeholder.com/300x200?text=MEGA';
-  return 'https://via.placeholder.com/300x200';
-}
+function getAlbums(){ return ALBUMS; }
