@@ -4,32 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>พระเครื่องแดนสยาม</title>
-<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="site-header">
+<button class="toggle-btn" onclick="toggleMode()">🌙 / ☀️</button>
+<div class="container">
   <h1>พระเครื่องแดนสยาม</h1>
-  <nav>
-    <a href="index.html">หน้าแรก</a>
-    <a href="admin.html">ผู้ดูแลระบบ</a>
-  </nav>
-</header>
-
-<main class="container">
-  <section class="controls">
-    <select id="filter-type"><option value="all">ประเภทพระเครื่องทั้งหมด</option></select>
-    <select id="filter-material"><option value="all">เนื้อพระทั้งหมด</option></select>
-    <input type="text" id="search-input" placeholder="ค้นหา...">
-  </section>
-
-  <section id="gallery" class="gallery-grid"></section>
-</main>
-
-<footer class="site-footer">
-  <small id="footer-year">© 2025 พระเครื่องแดนสยาม</small>
-</footer>
-
-<script src="js/albums.js"></script>
-<script src="js/album-gallery.js"></script>
+  <p>เลือกชมอัลบั้มพระเครื่องจากแต่ละบริการ</p>
+  <a href="google.html" class="button">Google Photos</a>
+  <a href="mega.html" class="button">MEGA</a>
+  <a href="icedrive.html" class="button">IceDrive</a>
+</div>
+<script>
+function toggleMode() { document.body.classList.toggle('light'); }
+</script>
 </body>
 </html>
