@@ -1,21 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>พระเครื่องแดนสยาม - Gallery</title>
-<link rel="stylesheet" href="css/style.css">
+<title>พระเครื่องลึกลับแดนสยาม</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header>
-  <h1>พระเครื่องลึกลับแดนสยาม</h1>
+<header class="site-header">
+  <h1>พระเครื่องแดนสยาม</h1>
+  <nav>
+    <a href="/">หน้าแรก</a>
+    <a href="/admin.html">Admin</a>
+  </nav>
 </header>
 
-<div class="container">
-  <div id="gallery"></div>
-</div>
+<main class="container">
+  <section class="controls">
+    <select id="filter-category"><option value="all">ทั้งหมด</option></select>
+    <select id="filter-material"><option value="all">ทุกเนื้อ</option></select>
+    <input id="search-input" placeholder="ค้นหา...">
+  </section>
 
-<script src="js/albums.js"></script>
-<script src="js/album-gallery.js"></script>
+  <section id="gallery" class="gallery-grid"></section>
+</main>
+
+<footer>
+  <small id="footer-year">© 2025 พระเครื่องแดนสยาม</small>
+</footer>
+
+<script src="/js/albums.js"></script>
+<script src="/js/album-gallery.js"></script>
 </body>
 </html>
