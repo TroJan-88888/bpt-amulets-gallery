@@ -1,0 +1,36 @@
+:root{
+  --bg:#0b0b0b; --card:#1b1b1b; --accent:#c98b3b; --text:#f3ead6;
+}
+body{
+  margin:0;
+  font-family:Kanit,Arial,sans-serif;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/c/ce/Ayutthaya_3_pagodas.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+}
+header{
+  background: rgba(43,26,15,0.9);
+  padding:12px;
+  text-align:center;
+}
+header h1{margin:0;color:gold;}
+.container{max-width:1200px;margin:20px auto;padding:0 10px;}
+#gallery{column-count:4;column-gap:15px;}
+.card{
+  display:inline-block;
+  background: var(--card);
+  margin:0 0 15px;
+  width:100%;
+  border-radius:8px;
+  overflow:hidden;
+}
+.card img{
+  width:100%;
+  display:block;
+  border-radius:6px 6px 0 0;
+}
+.card h3{margin:8px;padding:0 8px;color:var(--accent);}
+.card p{padding:0 8px 8px 8px;font-size:0.9rem;}
+@media (max-width:1024px){#gallery{column-count:3;}}
+@media (max-width:768px){#gallery{column-count:2;}}
+@media (max-width:480px){#gallery{column-count:1;}}
