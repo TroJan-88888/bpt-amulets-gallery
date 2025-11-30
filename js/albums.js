@@ -1,10 +1,22 @@
-// albums.js
-const ALBUMS = [
-  {"name":"เชียงใหม่","url":"https://photos.google.com/album/AF1QipNikZnyPDpsuIh56ncLi4B72AQA1nQIQd_644MW"},
-  {"name":"หลวงปู่ทวดวัดช้างให้","url":"https://photos.google.com/album/AF1QipOILbe6R2qZrL020jEJtaCEcAQZeb9VQLIXEK5j"},
-  {"name":"พิจิตร","url":"https://photos.google.com/album/AF1QipNH3Vrx0EA1Ocl5Ei_KkDvTd6QyIgFferd1KFhN"},
-  {"name":"วัดปากน้ำ","url":"https://photos.google.com/album/AF1QipO51mqsIk-prnPjhlLa4W2ssbJ-qQ0cbI8A26zq"}
-  // เพิ่ม album อื่นๆ
-];
+// ดึงข้อมูล amulets จาก GAS
+async function fetchAmulets(){
+  const res = await fetch('<GAS_WEBAPP_URL>?action=amulets');
+  const data = await res.json();
+  return data;
+}
 
-function getAlbums(){ return ALBUMS; }
+// สร้าง filter หมวดหมู่และเนื้อ
+function populateFilters(items){
+  const typeSet = new Set(items.map(i=>i.type));
+  const materialSet = new Set(items.map(i=>i.material));
+
+  const typeSel = document.getElementById('filter-type');
+  const matSel = document.getElementById('filter-material');
+
+  typeSet.forEach(t=>{
+    const o=document.createElement('option'); o.value=t; o.textContent=t; typeSel.appendChild(o);
+  });
+  materialSet.forEach(m=>{
+    const o=document.createElement('option'); o.value=m; o.textContent=m; matSel.appendChild(o);
+  });
+}
