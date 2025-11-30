@@ -1,22 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - พระเครื่องแดนสยาม</title>
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="site-header">
-  <div class="container">
-    <h1>แผงผู้ดูแล</h1>
-    <nav><a href="/">กลับหน้าแรก</a></nav>
-  </div>
+  <h1>แผงผู้ดูแลระบบ</h1>
+  <nav>
+    <a href="index.html">กลับหน้าแรก</a>
+  </nav>
 </header>
 
 <main class="container admin-container">
-  <section class="auth-box" id="login-box">
-    <h2>เข้าสู่ระบบ</h2>
+  <section id="login-box">
+    <h2>เข้าสู่ระบบ Admin</h2>
     <form id="login-form">
       <input id="login-user" placeholder="ชื่อผู้ใช้" required>
       <input id="login-pass" type="password" placeholder="รหัสผ่าน" required>
@@ -28,10 +28,9 @@
   <section id="admin-panel" style="display:none;">
     <h2>จัดการรูปพระเครื่อง</h2>
     <form id="upload-form">
-      <label>ไฟล์รูป (jpg/png, ≤5MB)</label>
-      <input id="file-input" type="file" accept="image/*">
-      <input id="img-title" placeholder="ชื่อพระ" required>
-      <select id="img-category">
+      <input id="file-input" type="file" accept="image/*" required>
+      <input id="img-title" placeholder="ชื่อพระเครื่อง" required>
+      <select id="img-type">
         <option value="พระกรุ">พระกรุ</option>
         <option value="พระเกจิ">พระเกจิ</option>
       </select>
@@ -46,19 +45,17 @@
       <button type="submit">อัปโหลด</button>
     </form>
 
-    <div style="margin-top:12px; display:flex; gap:8px;">
-      <button id="refresh-list">รีเฟรชรายการ</button>
-      <button id="logout-btn">ออกจากระบบ</button>
-    </div>
+    <button id="refresh-list">รีเฟรชรายการ</button>
+    <button id="logout-btn">ออกจากระบบ</button>
 
-    <h3 style="margin-top:20px;">รายการล่าสุด</h3>
-    <div id="admin-list"></div>
+    <h3>รายการล่าสุด</h3>
+    <div id="admin-list" class="gallery-grid"></div>
   </section>
 </main>
 
-<script src="/js/api.js"></script>
-<script src="/js/auth.js"></script>
-<script src="/js/uploader.js"></script>
-<script src="/js/album-gallery.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/uploader.js"></script>
+<script src="js/albums.js"></script>
+<script src="js/album-gallery.js"></script>
 </body>
 </html>
