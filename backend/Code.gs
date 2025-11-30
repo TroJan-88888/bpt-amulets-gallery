@@ -4,7 +4,7 @@
 
 // ====== Config ======
 const ADMIN_USER = 'admin';
-const ADMIN_PASSWORD = 'bpt2024'; // รหัสผ่าน admin
+const ADMIN_PASSWORD = 'BPT28282888888882'; // รหัสผ่าน admin
 const JWT_SECRET = 'bpt_secret_2025';
 const FOLDER_ID = 'YOUR_DRIVE_FOLDER_ID'; // โฟลเดอร์ Google Drive สำหรับเก็บรูป
 
