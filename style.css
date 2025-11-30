@@ -1,0 +1,74 @@
+:root {
+  --bg-color: rgba(0,0,0,0.5);
+  --text-color: #fff;
+  --button-bg: #ffcc00;
+  --button-text: #000;
+  --link-color: #ffcc00;
+}
+body {
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  color: var(--text-color);
+  background: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg') no-repeat center center fixed;
+  background-size: cover;
+  transition: background 0.5s, color 0.5s;
+}
+body.light {
+  --bg-color: rgba(255,255,255,0.7);
+  --text-color: #000;
+  --button-bg: #000;
+  --button-text: #ffcc00;
+  --link-color: #000;
+}
+.container {
+  padding: 50px 20px;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+h1, h2 { text-align: center; }
+h1 { font-size: 3em; margin-bottom: 40px; }
+h2 { margin: 40px 0 20px; }
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 20px;
+}
+.card {
+  background-color: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.3s;
+}
+.card:hover { background-color: rgba(255,255,255,0.2); }
+.card a {
+  color: var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+a.button {
+  display: inline-block;
+  margin: 20px;
+  padding: 15px 30px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+a.button:hover { opacity: 0.8; }
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.toggle-btn:hover { opacity: 0.8; }
