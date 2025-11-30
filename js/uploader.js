@@ -1,59 +1,98 @@
-function readFileAsDataURL(file){
-  return new Promise((res,rej)=>{
-    const r = new FileReader();
-    r.onload=()=>res(r.result);
-    r.onerror=rej;
-    r.readAsDataURL(file);
+// อ่านไฟล์เป็น DataURL
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+// อัปโหลดรูปพระเครื่อง
+document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('upload-form');
-  if(!form) return;
-  form.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const file=document.getElementById('file-input').files[0];
-    const title=document.getElementById('img-title').value;
-    const type=document.getElementById('img-type').value;
-    const material=document.getElementById('img-material').value;
-    const desc=document.getElementById('img-desc').value;
-    if(!file){ alert('กรุณาเลือกไฟล์'); return; }
-    const dataUrl = await readFileAsDataURL(file);
+  if (!form) return;
 
-    const token=sessionStorage.getItem('amulets_jwt');
-    const res = await fetch('<GAS_WEBAPP_URL>',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'upload',title,type,material,desc,dataUrl,token})
-    });
-    const data = await res.json();
-    if(data.ok){ alert('อัปโหลดสำเร็จ'); loadAdminList(); } 
-    else alert('ล้มเหลว');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const file = document.getElementById('file-input').files[0];
+    const title = document.getElementById('img-title').value;
+    const type = document.getElementById('img-type').value;
+    const material = document.getElementById('img-material').value;
+    const desc = document.getElementById('img-desc').value;
+
+    if (!file) { alert('กรุณาเลือกไฟล์'); return; }
+
+    const dataUrl = await readFileAsDataURL(file);
+    const token = sessionStorage.getItem('amulets_jwt');
+
+    try {
+      const res = await fetch('<GAS_WEBAPP_URL>', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'upload', title, type, material, desc, dataUrl, token })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        alert('อัปโหลดสำเร็จ');
+        loadAdminList();
+        form.reset();
+      } else {
+        alert('อัปโหลดล้มเหลว');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('เกิดข้อผิดพลาดระหว่างอัปโหลด');
+    }
   });
 });
 
-// Load Admin list
-async function loadAdminList(){
+// โหลดรายการภาพสำหรับ admin
+async function loadAdminList() {
   const gallery = document.getElementById('admin-list');
-  gallery.innerHTML='';
-  const items = await fetch('<GAS_WEBAPP_URL>?action=amulets').then(r=>r.json());
-  items.forEach(i=>{
-    const card=document.createElement('div'); card.className='card';
-    card.innerHTML=`<img src="${i.image}" alt="${i.title}"><h3>${i.title}</h3>
-    <p>${i.description}</p>
-    <button onclick="deleteItem(${i.id})">ลบ</button>`;
-    gallery.appendChild(card);
-  });
+  if (!gallery) return;
+  gallery.innerHTML = '';
+  try {
+    const items = await fetch('<GAS_WEBAPP_URL>?action=amulets').then(r => r.json());
+    items.forEach(i => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${i.image}" alt="${i.title}">
+        <h3>${i.title}</h3>
+        <p>${i.description}</p>
+        <button onclick="deleteItem('${i.id}')">ลบ</button>
+      `;
+      gallery.appendChild(card);
+    });
+  } catch (err) {
+    console.error(err);
+    gallery.innerHTML = '<p>โหลดรายการล้มเหลว</p>';
+  }
 }
 
-async function deleteItem(id){
-  if(!confirm('ลบรายการนี้?')) return;
-  const token=sessionStorage.getItem('amulets_jwt');
-  const res = await fetch('<GAS_WEBAPP_URL>',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({action:'delete',id,token})
-  });
-  const data = await res.json();
-  if(data.ok){ loadAdminList(); } else { alert('ล้มเหลว'); }
+// ลบรายการภาพ
+async function deleteItem(id) {
+  if (!confirm('คุณต้องการลบรายการนี้หรือไม่?')) return;
+  const token = sessionStorage.getItem('amulets_jwt');
+
+  try {
+    const res = await fetch('<GAS_WEBAPP_URL>', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', id, token })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      loadAdminList();
+    } else {
+      alert('ลบล้มเหลว');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('เกิดข้อผิดพลาดระหว่างลบ');
+  }
 }
+
+// รีเฟรชรายการ
+document.getElementById('refresh-list')?.addEventListener('click', loadAdminList);
