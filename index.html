@@ -1,38 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>พระเครื่องแดนสยาม</title>
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="site-header">
-  <div class="container">
-    <h1>พระเครื่องแดนสยาม</h1>
-    <nav>
-      <a href="/">หน้าแรก</a>
-      <a href="/admin.html">Admin</a>
-    </nav>
-  </div>
+  <h1>พระเครื่องแดนสยาม</h1>
+  <nav>
+    <a href="index.html">หน้าแรก</a>
+    <a href="admin.html">ผู้ดูแลระบบ</a>
+  </nav>
 </header>
 
 <main class="container">
-  <section id="albums-section">
-    <div class="controls">
-      <select id="filter-category"><option value="all">ทั้งหมด</option></select>
-      <select id="filter-material"><option value="all">ทุกเนื้อ</option></select>
-      <input id="search-input" placeholder="ค้นหา...">
-    </div>
-    <div id="albums-gallery" class="gallery-grid" aria-live="polite"></div>
+  <section class="controls">
+    <select id="filter-type"><option value="all">ประเภทพระเครื่องทั้งหมด</option></select>
+    <select id="filter-material"><option value="all">เนื้อพระทั้งหมด</option></select>
+    <input type="text" id="search-input" placeholder="ค้นหา...">
   </section>
+
+  <section id="gallery" class="gallery-grid"></section>
 </main>
 
 <footer class="site-footer">
-  <small id="footer-year">©</small>
+  <small id="footer-year">© 2025 พระเครื่องแดนสยาม</small>
 </footer>
 
-<script src="/js/albums.js"></script>
-<script src="/js/album-gallery.js"></script>
+<script src="js/albums.js"></script>
+<script src="js/album-gallery.js"></script>
 </body>
 </html>
