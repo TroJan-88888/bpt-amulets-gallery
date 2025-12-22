@@ -4,69 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>พระลึกลับแดนสยาม</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:,">
 </head>
-
-<body onload="welcomeVoice()">
-
-<!-- ปุ่ม Dark / Light -->
+<body>
 <button class="toggle-btn" onclick="toggleMode()">🌙 / ☀️</button>
-
 <div class="container">
   <h1>พระลึกลับแดนสยาม</h1>
-  <p style="text-align:center;">
-    เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษาและให้ความรู้
-  </p>
-
-  <div style="text-align:center;">
-    <a href="google.html" class="button">รูปพระชุดที่ 1</a>
-    <a href="mega.html" class="button">รูปพระชุดที่ 2</a>
-    <a href="icedrive.html" class="button">รูปพระชุดที่ 3</a>
-  </div>
-
-  <div style="text-align:center; margin-top:30px;">
-    <button class="button" onclick="startVoiceSearch()">🎤 ค้นหาด้วยเสียง</button>
-  </div>
+  <p>เลือกชมอัลบั้มพระเครื่องเพือ่การศึกษาและให้ความรู้</p>
+  <a href="google.html" class="button">รูปพระชุดที่1</a>
+  <a href="mega.html" class="button">รูปพระชุดที่2</a>
+  <a href="icedrive.html" class="button">รูปพระชุดที่3</a>
 </div>
-
-<!-- ================== JS: Dark / Light ================== -->
 <script>
-function toggleMode() {
-  document.body.classList.toggle('light');
-}
+function toggleMode() { document.body.classList.toggle('light'); }
 </script>
-
-<!-- ================== เสียงต้อนรับ (ครั้งเดียว) ================== -->
-<script>
-let welcomed = false;
-function welcomeVoice() {
-  if (welcomed) return;
-  welcomed = true;
-
-  const text = `
-ขอต้อนรับสู่ พระลึกลับแดนสยาม
-เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษา
-และวิธีดูพระแท้ๆ ว่าดูอย่างไร
-บางท่านอาจจะไม่รู้จัก
-เข้ามาในนี้มีแต่ความรู้ดีๆ
-ขอให้ทุกท่านประสบความสำเร็จทุกประการ
-  `;
-
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "th-TH";
-  speech.rate = 0.9;
-  speech.pitch = 1;
-
-  window.speechSynthesis.speak(speech);
-}
-</script>
-
-<!-- ⚠️ ต้องเรียงลำดับแบบนี้ -->
-<script src="amulet-db.js"></script>
-<script src="voice-search.js"></script>
-
 </body>
 </html>
