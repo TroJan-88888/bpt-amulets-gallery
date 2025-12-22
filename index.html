@@ -4,70 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>พระลึกลับแดนสยาม</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 <button class="toggle-btn" onclick="toggleMode()">🌙 / ☀️</button>
-
 <div class="container">
   <h1>พระลึกลับแดนสยาม</h1>
-  <p>เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษา</p>
-
-  <!-- ปุ่มค้นหาด้วยเสียง -->
-  <button class="mic-btn" onclick="startVoice()">🎤 ค้นหาด้วยเสียง</button>
-  <p id="voiceText"></p>
-
-  <!-- รายการพระ -->
-  <div id="list">
-    <a href="google.html" class="button">รูปพระชุดที่1</a>
-    <a href="mega.html" class="button">รูปพระชุดที่2</a>
-   <a href="icedrive.html" class="button">รูปพระชุดที่3</a>
-  </div>
+  <p>เลือกชมอัลบั้มพระเครื่องเพือ่การศึกษาและให้ความรู้</p>
+  <a href="google.html" class="button">รูปพระชุดที่1</a>
+  <a href="mega.html" class="button">รูปพระชุดที่2</a>
+  <a href="icedrive.html" class="button">รูปพระชุดที่3</a>
 </div>
-
 <script>
-function toggleMode(){
-  document.body.classList.toggle('light');
-}
-
-/* ===== Voice Search ===== */
-function startVoice(){
-  if(!('webkitSpeechRecognition' in window)){
-    alert("เบราว์เซอร์นี้ไม่รองรับการสั่งงานด้วยเสียง");
-    return;
-  }
-
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = 'th-TH';
-  recognition.interimResults = false;
-
-  recognition.start();
-
-  recognition.onresult = function(event){
-    const text = event.results[0][0].transcript;
-    document.getElementById("voiceText").innerText = "🔎 ค้นหา: " + text;
-    filterItems(text);
-  }
-}
-
-/* ===== Filter พระ ===== */
-function filterItems(keyword){
-  keyword = keyword.trim();
-  const items = document.querySelectorAll("#list .button");
-
-  items.forEach(item=>{
-    const name = item.dataset.name;
-    if(name.includes(keyword)){
-      item.style.display = "block";
-    }else{
-      item.style.display = "none";
-    }
-  });
-}
+function toggleMode() { document.body.classList.toggle('light'); }
 </script>
-
 </body>
 </html>
