@@ -1,44 +1,44 @@
-// ================== เริ่มค้นหาด้วยเสียง ==================
+// ================== เสียงพูด ==================
+function speak(text) {
+  window.speechSynthesis.cancel();
+  const s = new SpeechSynthesisUtterance(text);
+  s.lang = "th-TH";
+  s.rate = 0.95;
+  window.speechSynthesis.speak(s);
+}
+
+// ================== ค้นหาด้วยเสียง ==================
 function startVoiceSearch() {
-  if (!('webkitSpeechRecognition' in window)) {
+  if (!("webkitSpeechRecognition" in window)) {
     alert("เบราว์เซอร์ไม่รองรับการค้นหาด้วยเสียง");
     return;
   }
 
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = "th-TH";
-  recognition.interimResults = false;
-  recognition.continuous = false;
+  const rec = new webkitSpeechRecognition();
+  rec.lang = "th-TH";
+  rec.interimResults = false;
+  rec.continuous = false;
 
-  recognition.onresult = function (event) {
-    const spoken = event.results[0][0].transcript.trim();
-    searchAmulet(spoken);
+  rec.onresult = (e) => {
+    const text = e.results[0][0].transcript.trim();
+    searchAmulet(text);
   };
 
-  recognition.start();
+  rec.start();
 }
 
 // ================== AI ค้นหาพระ ==================
-function searchAmulet(keyword) {
-  let found = false;
-
-  for (let name in amuletDB) {
-    if (keyword.includes(name)) {
-      speak(`พบ ${name} อยู่ใน ${amuletDB[name].album}`);
-      found = true;
-      break;
+function searchAmulet(text) {
+  for (let group of amuletDB) {
+    for (let key of group.keywords) {
+      if (text.includes(key)) {
+        speak(`พบ ${key} อยู่ใน${group.album} กำลังเปิดให้ครับ`);
+        setTimeout(() => {
+          window.location.href = group.link;
+        }, 2600);
+        return;
+      }
     }
   }
-
-  if (!found) {
-    speak("ยังไม่ได้เพิ่มครับเจ้านาย");
-  }
-}
-
-// ================== ระบบพูด ==================
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "th-TH";
-  speech.rate = 1;
-  window.speechSynthesis.speak(speech);
+  speak("ยังไม่ได้เพิ่มครับเจ้านาย");
 }
