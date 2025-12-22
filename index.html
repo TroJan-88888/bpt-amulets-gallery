@@ -4,25 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>พระลึกลับแดนสยาม</title>
-<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:Kanit,sans-serif;
+  background:#111;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.container{
+  text-align:center;
+  max-width:420px;
+}
+.button{
+  display:block;
+  margin:12px 0;
+  padding:14px;
+  background:#caa44d;
+  color:#000;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+}
+.voice{
+  background:#4caf50;
+}
+</style>
 </head>
 
-<body>
+<body onload="welcomeVoice()">
 
 <div class="container">
   <h1>พระลึกลับแดนสยาม</h1>
+  <p>เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษา</p>
 
-  <a href="google.html" class="button">รูปพระชุดที่ 1</a>
-  <a href="mega.html" class="button">รูปพระชุดที่ 2</a>
-  <a href="icedrive.html" class="button">รูปพระชุดที่ 3</a>
+  <a class="button" href="google.html">รูปพระชุดที่ 1</a>
+  <a class="button" href="mega.html">รูปพระชุดที่ 2</a>
+  <a class="button" href="icedrive.html">รูปพระชุดที่ 3</a>
 
-  <br><br>
-  <button class="button" onclick="startVoiceSearch()">🎤 ค้นหาด้วยเสียง</button>
+  <button class="button voice" onclick="startVoiceSearch()">🎤 ค้นหาด้วยเสียง</button>
 </div>
 
-<!-- ⚠️ ลำดับสำคัญ -->
+<script>
+// ================== เสียงต้อนรับ (ครั้งเดียว) ==================
+let welcomed = false;
+function welcomeVoice(){
+  if(welcomed) return;
+  welcomed = true;
+
+  const text = `
+ขอต้อนรับสู่ พระลึกลับแดนสยาม
+เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษา
+และวิธีดูพระแท้
+ภายในนี้มีแต่ความรู้ดีๆ
+ขอให้ทุกท่านประสบความสำเร็จทุกประการ
+  `;
+  const s = new SpeechSynthesisUtterance(text);
+  s.lang = "th-TH";
+  s.rate = 0.9;
+  window.speechSynthesis.speak(s);
+}
+</script>
+
 <script src="amulet-db.js"></script>
 <script src="voice-search.js"></script>
 
 </body>
 </html>
+
