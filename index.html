@@ -7,17 +7,104 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+
+<body onload="welcomeVoice()">
+
 <button class="toggle-btn" onclick="toggleMode()">🌙 / ☀️</button>
+
 <div class="container">
   <h1>พระลึกลับแดนสยาม</h1>
-  <p>เลือกชมอัลบั้มพระเครื่องเพือ่การศึกษาและให้ความรู้</p>
-  <a href="google.html" class="button">รูปพระชุดที่1</a>
-  <a href="mega.html" class="button">รูปพระชุดที่2</a>
-  <a href="icedrive.html" class="button">รูปพระชุดที่3</a>
+  <p>เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษาและให้ความรู้</p>
+
+  <a href="google.html" class="button">รูปพระชุดที่ 1</a>
+  <a href="mega.html" class="button">รูปพระชุดที่ 2</a>
+  <a href="icedrive.html" class="button">รูปพระชุดที่ 3</a>
+
+  <br><br>
+  <button class="button" onclick="startVoiceSearch()">🎤 ค้นหาด้วยเสียง</button>
 </div>
+
 <script>
-function toggleMode() { document.body.classList.toggle('light'); }
+// ================== โหมดกลางวัน/กลางคืน ==================
+function toggleMode() {
+  document.body.classList.toggle('light');
+}
+
+// ================== เสียงต้อนรับ (รอบเดียว) ==================
+let welcomed = false;
+
+function welcomeVoice() {
+  if (welcomed) return;
+  welcomed = true;
+
+  const text = `ขอต้อนรับสู่ พระลึกลับแดนสยาม
+  เลือกชมอัลบั้มพระเครื่องเพื่อการศึกษา
+  และวิธีดูพระแท้ๆ ว่าดูอย่างไร
+  บางท่านอาจจะไม่รู้จัก
+  เข้ามาในนี้มีแต่ความรู้ดีๆ
+  ขอให้ทุกท่านประสบความสำเร็จทุกประการ`;
+
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "th-TH";
+  speech.rate = 0.95;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
+}
+
+// ================== ฐานข้อมูลพระ (AI Search) ==================
+const amuletDB = {
+  "พระรอด": "อยู่ในรูปพระชุดที่ 1",
+  "พระสมเด็จ": "อยู่ในรูปพระชุดที่ 2",
+  "พระนางพญา": "อยู่ในรูปพระชุดที่ 3"
+};
+
+// ================== ค้นหาด้วยเสียง ==================
+function startVoiceSearch() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("เบราว์เซอร์ไม่รองรับการค้นหาด้วยเสียง");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "th-TH";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onresult = function(event) {
+    const spoken = event.results[0][0].transcript.trim();
+    searchAmulet(spoken);
+  };
+
+  recognition.start();
+}
+
+// ================== ประมวลผล AI ==================
+function searchAmulet(keyword) {
+  let found = false;
+
+  for (let name in amuletDB) {
+    if (keyword.includes(name)) {
+      speak(`พบ ${name} ${amuletDB[name]}`);
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    speak("ยังไม่ได้เพิ่มครับเจ้านาย");
+  }
+}
+
+// ================== ฟังก์ชันพูด ==================
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "th-TH";
+  speech.rate = 1;
+  window.speechSynthesis.speak(speech);
+}
 </script>
+
 </body>
 </html>
+
